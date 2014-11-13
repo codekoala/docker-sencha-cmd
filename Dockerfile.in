@@ -3,10 +3,12 @@ MAINTAINER Josh VanderLinden <codekoala@gmail.com>
 
 ENTRYPOINT ["/opt/Sencha/Cmd/{CMD_VER}/sencha"]
 
-RUN pacman -Sy --noconfirm --needed \
+RUN pacman -Sy --noconfirm --needed unzip \
         fontconfig freetype2 libcups \
         jre7-openjdk ruby ruby-compass
 
-ADD cmd-install.run /
-RUN /cmd-install.run --mode unattended --prefix /opt && \
-    rm /cmd-install.run
+RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/{CMD_VER}/SenchaCmd-{CMD_VER}-linux-x64.run.zip && \
+	unzip -p /cmd.run.zip > /cmd-install.run && \
+	chmod +x /cmd-install.run && \
+    /cmd-install.run --mode unattended --prefix /opt && \
+    rm /cmd-install.run /cmd.run.zip
