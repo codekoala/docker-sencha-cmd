@@ -3,12 +3,12 @@ MAINTAINER Josh VanderLinden <codekoala@gmail.com>
 
 RUN pacman -Sy --noconfirm --needed unzip \
         fontconfig freetype2 libcups \
-        jre7-openjdk ruby ruby-compass
+        ttf-dejavu jre7-openjdk
 
 ENTRYPOINT ["/opt/Sencha/Cmd/{CMD_VER}/sencha"]
 
-RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/{CMD_VER}/SenchaCmd-{CMD_VER}-linux-x64.run.zip && \
+RUN curl -o /cmd.run.zip https://extjs.cachefly.net/cmd/{CMD_VER}/no-jre/SenchaCmd-{CMD_VER}-linux-amd64.sh.zip && \
     unzip -p /cmd.run.zip > /cmd-install.run && \
     chmod +x /cmd-install.run && \
-    /cmd-install.run --mode unattended --prefix /opt && \
+    /cmd-install.run -q --prefix /opt && \
     rm /cmd-install.run /cmd.run.zip
