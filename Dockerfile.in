@@ -10,5 +10,5 @@ ENTRYPOINT ["/opt/Sencha/Cmd/{CMD_VER}/sencha"]
 RUN curl -o /cmd.run.zip https://extjs.cachefly.net/cmd/{CMD_VER}/no-jre/SenchaCmd-{CMD_VER}-linux-amd64.sh.zip && \
     unzip -p /cmd.run.zip > /cmd-install.run && \
     chmod +x /cmd-install.run && \
-    /cmd-install.run -q --prefix /opt && \
+    /cmd-install.run -q -dir /opt/Sencha/Cmd/{CMD_VER} && \
     rm /cmd-install.run /cmd.run.zip
