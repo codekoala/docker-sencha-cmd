@@ -1,4 +1,4 @@
-CMD_VER := 6.0.0.202
+CMD_VER := 6.0.2.14
 CMD_VER_SHORT := 6
 
 IMG := codekoala/sencha
