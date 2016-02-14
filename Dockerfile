@@ -11,4 +11,5 @@ RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/6.0.2.14/SenchaCmd-6.0.2.14-l
     unzip -p /cmd.run.zip > /cmd-install.run && \
     chmod +x /cmd-install.run && \
     /cmd-install.run -q -dir /opt/Sencha/Cmd/6.0.2.14 && \
+    install -dm777 -o root -g root /opt/Sencha/Cmd/repo && \
     rm /cmd-install.run /cmd.run.zip
