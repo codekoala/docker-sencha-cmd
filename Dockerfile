@@ -5,11 +5,11 @@ RUN pacman -Sy --noconfirm --needed unzip \
         fontconfig freetype2 libcups \
         ttf-dejavu jre7-openjdk
 
-ENTRYPOINT ["/opt/Sencha/Cmd/6.0.2.14/sencha"]
+ENTRYPOINT ["/opt/Sencha/Cmd/6.1.0.65/sencha"]
 
-RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/6.0.2.14/SenchaCmd-6.0.2.14-linux-amd64.sh.zip && \
+RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/6.1.0.65/SenchaCmd-6.1.0.65-linux-amd64.sh.zip && \
     unzip -p /cmd.run.zip > /cmd-install.run && \
     chmod +x /cmd-install.run && \
-    /cmd-install.run -q -dir /opt/Sencha/Cmd/6.0.2.14 && \
+    /cmd-install.run -q -dir /opt/Sencha/Cmd/6.1.0.65 && \
     install -dm777 -o root -g root /opt/Sencha/Cmd/repo && \
     rm /cmd-install.run /cmd.run.zip
