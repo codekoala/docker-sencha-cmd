@@ -1,15 +1,14 @@
-FROM codekoala/arch
+FROM alpine:3.5
 MAINTAINER Josh VanderLinden <codekoala@gmail.com>
 
-RUN pacman -Sy --noconfirm --needed unzip \
-        fontconfig freetype2 libcups \
-        ttf-dejavu jre7-openjdk
+RUN apk update && \
+    apk add curl unzip fontconfig freetype cups-libs ttf-dejavu openjdk8-jre
 
-ENTRYPOINT ["/opt/Sencha/Cmd/{CMD_VER}/sencha"]
-
-RUN curl -o /cmd.run.zip http://cdn.sencha.com/cmd/{CMD_VER}/SenchaCmd-{CMD_VER}-linux-amd64.sh.zip && \
+RUN curl -Lo /cmd.run.zip http://cdn.sencha.com/cmd/${CMD_VER}/no-jre/SenchaCmd-${CMD_VER}-linux-amd64.sh.zip && \
     unzip -p /cmd.run.zip > /cmd-install.run && \
     chmod +x /cmd-install.run && \
-    /cmd-install.run -q -dir /opt/Sencha/Cmd/{CMD_VER} && \
+    INSTALL4J_ADD_VM_PARAMS="-Djava.awt.headless=true" /cmd-install.run -q -dir /opt/Sencha/Cmd/${CMD_VER} && \
     install -dm777 -o root -g root /opt/Sencha/Cmd/repo && \
     rm /cmd-install.run /cmd.run.zip
+
+ENTRYPOINT ["/opt/Sencha/Cmd/${CMD_VER}/sencha"]
