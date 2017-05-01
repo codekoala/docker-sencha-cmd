@@ -1,14 +1,28 @@
-FROM alpine:3.5
+FROM java:8-jre
 MAINTAINER Josh VanderLinden <codekoala@gmail.com>
 
-RUN apk update && \
-    apk add curl unzip fontconfig freetype cups-libs ttf-dejavu openjdk8-jre
+RUN apt-get update && \
+    apt-get install -y curl ruby unzip
 
-RUN curl -Lo /cmd.run.zip http://cdn.sencha.com/cmd/${CMD_VER}/no-jre/SenchaCmd-${CMD_VER}-linux-amd64.sh.zip && \
-    unzip -p /cmd.run.zip > /cmd-install.run && \
-    chmod +x /cmd-install.run && \
-    INSTALL4J_ADD_VM_PARAMS="-Djava.awt.headless=true" /cmd-install.run -q -dir /opt/Sencha/Cmd/${CMD_VER} && \
-    install -dm777 -o root -g root /opt/Sencha/Cmd/repo && \
-    rm /cmd-install.run /cmd.run.zip
+RUN useradd -m sencha && \
+    cd && cp -R .bashrc .profile /home/sencha && \
+    mkdir -p /code && \
+    chown -R sencha:sencha /home/sencha /code
 
-ENTRYPOINT ["/opt/Sencha/Cmd/${CMD_VER}/sencha"]
+USER sencha
+ENV HOME /home/sencha
+
+RUN curl -Lo $HOME/cmd.run.zip http://cdn.sencha.com/cmd/${CMD_VER}/no-jre/SenchaCmd-${CMD_VER}-linux-amd64.sh.zip && \
+    unzip -p $HOME/cmd.run.zip > $HOME/cmd-install.run && \
+    chmod +x $HOME/cmd-install.run && \
+    INSTALL4J_ADD_VM_PARAMS="-Djava.awt.headless=true" $HOME/cmd-install.run -q -dir $HOME/Sencha/${CMD_VER} && \
+    rm $HOME/cmd-install.run $HOME/cmd.run.zip
+
+ENV PATH $HOME/Sencha/Cmd/${CMD_VER}/:$PATH
+
+WORKDIR /code
+
+EXPOSE 1841
+
+ENTRYPOINT ["/home/sencha/Sencha/${CMD_VER}/sencha"]
+CMD ["help"]

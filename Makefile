@@ -3,11 +3,7 @@ CMD_VER_SHORT := 6
 
 IMG := codekoala/sencha
 
-image: dockerfile
-	docker build --tag $(IMG):$(CMD_VER) .
-	docker tag $(IMG):$(CMD_VER) $(IMG):$(CMD_VER_SHORT)
+build:
+	./build.sh
 
-dockerfile:
-	envsubst < Dockerfile.in > Dockerfile
-
-export CMD_VER
+export CMD_VER CMD_VER_SHORT IMG
